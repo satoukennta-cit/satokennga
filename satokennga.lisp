@@ -28,7 +28,7 @@ ga)
 
 
 (defun run-gene1 (i)
-(loop for n below i do (if (= n 0) (progn (initial) (format t "~s,~f,~f~%" n (nth 2 (nth 0 ga)) (nth 1 (nth 0 ga))))
+(loop for n below i do (if (= n 0) (progn (initial) (format t "~s,~f,~f~%" (+ n 1) (nth 2 (nth 0 ga)) (nth 1 (nth 0 ga))))
 (progn
 (eval-ga)
 (roulette-ga)
@@ -38,7 +38,7 @@ ga)
 (sort-ga)
 (cut-ga)
 (sort-ga)
-(format t "~s,~f,~f~%" n (nth 2 (nth 0 ga)) (nth 1 (nth 0 ga)))))))
+(format t "~s,~f,~f~%" (+ n 1) (nth 2 (nth 0 ga)) (nth 1 (nth 0 ga)))))))
 
 (defun genelen1 (ga)
 (make-array gene-length :initial-contents ga))
