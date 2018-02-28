@@ -5,13 +5,13 @@ common lispでとりあえず動くgenetic algorithmを実装してみた。
 # 動かし方  
 ターミナルを開いて  
 git clone https://github.com/satoukennta-cit/satokennga  
-cd satokennga
-(load "satokennga")
-(run-gene1 ???)
+cd satokennga  
+(load "satokennga")  
+(run-gene1 ???)  
 
 ???のところは世代数を入力する。  
 (run-gene1 10)と入力すれば10世代分のgenetic algorithmを行う。  
-commmon lispのインストールは省略!
+commmon lispのインストールは省略!  
 
 # 特徴
 手続き型プログラミング風を貫いたつもり。  
@@ -26,7 +26,7 @@ commmon lispのインストールは省略!
 適応度と入ったが実装したものは適応度ではなく配列の合計の値そのものを使っているからちゃんとした適応度に変えておく。  
 ルーレット選択、トーナメント選択も実装する。  
 親は一度選択されると２度と選択できないようなものも実装したい。  
-普通のgenetic algorithmも実装したい
+普通のgenetic algorithmも実装したい。  
 １点交叉、２点交叉、n点交叉も実装したい。  
 エリート戦略も実装したい。  
 高速化したい。  
