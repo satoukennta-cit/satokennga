@@ -23,10 +23,12 @@ ga)
 
 (defun initial ()
 (gpara)
-(loop for n below gene-length collect (ga1 n (run-gene) n)))
+(loop for n below gene-length collect (ga1 n (run-gene) n))
+(eval-ga))
+
 
 (defun run-gene1 (i)
-(loop for n below i do (if (= n 0) (progn (initial) (format t "~f~%" (nth 2 (nth 0 ga))))
+(loop for n below i do (if (= n 0) (progn (initial) (format t "~s,~f,~f~%" n (nth 2 (nth 0 ga)) (nth 1 (nth 0 ga))))
 (progn
 (eval-ga)
 (roulette-ga)
@@ -36,7 +38,7 @@ ga)
 (sort-ga)
 (cut-ga)
 (sort-ga)
-(format t "~f~%" (nth 2 (nth 0 ga)))))))
+(format t "~s,~f,~f~%" n (nth 2 (nth 0 ga)) (nth 1 (nth 0 ga)))))))
 
 (defun genelen1 (ga)
 (make-array gene-length :initial-contents ga))
@@ -63,11 +65,12 @@ x))
 (defun mutation-ga ()
 (loop for n below (length ga) collect (mutation (nth 1 (nth n ga)))))
 
-(defun select (&optional (n 0) (x 8) (h 0))
+(defun select (&optional (n 0) (x 3) (h 0))
 (let ((y 10))
-(if (= h invididual) (select 0 8 0)
+(if (= h invididual) (select 0 3 0)
 (progn (if (> x (random y)) n
-(select (+ 1 n) 8 (+ 1 h)))))))
+(select (+ 1 n) 3 (+ 1 h)))))))
+
 
 (defun elite-copy () 
 (setf elite-copy-ga ())
