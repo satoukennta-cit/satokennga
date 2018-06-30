@@ -5,7 +5,7 @@ common lispでとりあえず動くgenetic algorithmを実装してみた。
 ターミナルを開いて  
 git clone https://github.com/satoukennta-cit/satokennga  
 cd satokennga  
-clisp
+clisp  
 (load "satokennga")  
 (run-gene1 ???)  
 
