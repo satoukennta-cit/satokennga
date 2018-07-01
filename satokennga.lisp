@@ -58,9 +58,6 @@ SOFTWARE.
 (defparameter elite 3)
 (defparameter cross-point 5)
 (defparameter mutation-point 1)
-(defparameter answer-ga point)
-(defparameter answer-ga-counter 0)
-(defparameter answer-ga-point 0)
 )
       
 (defun ga1 (number gene fitness)
