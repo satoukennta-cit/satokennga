@@ -20,31 +20,10 @@ AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
 LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
-MIT License
-
-Copyright (c) 2018 satou kenta
-
-Permission is hereby granted, free of charge, to any person obtaining a copy
-of this software and associated documentation files (the "Software"), to deal
-in the Software without restriction, including without limitation the rights
-to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
-copies of the Software, and to permit persons to whom the Software is
-furnished to do so, subject to the following conditions:
-
-The above copyright notice and this permission notice shall be included in all
-copies or substantial portions of the Software.
-
-THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
-IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
-FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
-AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
-LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
-OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
-SOFTWARE.
-
 |#
 
 (declaim (optimize (speed 3) (debug 0) (safety 0) (compilation-speed 0) (space 0)))
+
 
 (ql:quickload :clgplot)
 
@@ -55,7 +34,10 @@ SOFTWARE.
 (defparameter point 51)
 (defparameter gene-length 1000)
 (defparameter initial-invididual-space (make-array gene-length :initial-element 0))
-(defparameter elite 3)
+(defparameter elite 1)
+(defparameter elite-goodness 0)
+(defparameter elite-goodness2 0)
+(defparameter elite-array ())
 (defparameter cross-point 5)
 (defparameter mutation-point 1)
 )
@@ -67,9 +49,14 @@ SOFTWARE.
 (let ((mm ga))
 (setf ga (sort mm #'(lambda (xyz yzx) (> (nth 2 xyz) (nth 2 yzx)))))))
 
+(defun ga2 ()
+(loop for n below invididual do (progn (setf ga (push (car new-ga) ga)) (setf new-ga (cdr new-ga))))
+new-ga)
+
 (defun selection-ga2 ()
 (setf ga new-ga)
 (setf new-ga ()))
+
 
 (defun initial ()
 (gpara)
@@ -89,15 +76,18 @@ SOFTWARE.
 (loop while (equalp select1 select2) do (setq select2 (select))) (values select1 select2))))
 
 (defun run-gene1 (i)
-(let ((ga-plot-array (make-array i :adjustable T :fill-pointer 0)))
+(let ((ga-plot-array (make-array i :adjustable T :fill-pointer 0))
+)
 (loop for n below i do (if (= n 0) (progn (initial) (format t "~s,~f,~f~%" (+ n 1) (nth 2 (nth 0 ga)) (nth 1 (nth 0 ga))))
 (progn
 (vector-push (nth 2 (nth 0 ga)) ga-plot-array)
+(elite-copy)
 (roulette-ga)
 (mutation-ga)
 (selection-ga2)
 (eval-ga)
 (sort-ga)
+(elite-set)
 (format t "~s,~f,~f~%" (+ n 1) (nth 2 (nth 0 ga)) (nth 1 (nth 0 ga))))) when (= n i) return (print 'end))
 (clgp:plot ga-plot-array)))
 
@@ -118,10 +108,28 @@ SOFTWARE.
 x))
 
 (defun roulette-ga ()
-(loop repeat (/ invididual 2) do (crossover)))  
+(loop repeat (/ invididual 2) do (crossover))
+)  
 
 (defun mutation-ga ()
 (loop for n below (length ga) do (mutation (nth 1 (nth n new-ga)))))
+
+(defun elite-copy-ga ()
+(if (> (nth 2 (nth 0 ga)) elite-goodness)
+(setq elite-goodness2 (nth 2 (nth 0 ga)))))
+
+(defun elite-set ()
+(if (>= elite-goodness2 elite-goodness)
+(progn 
+(loop for n from (- elite 1) downto 0  do (setf ga (push (nth n elite-array) ga)))
+(setq elite-goodness elite-goodness2)
+(cut-ga)
+(sort-ga))))
+
+(defun elite-copy ()
+(if (elite-copy-ga)
+(progn (setq elite-array ())
+(loop for n from (- elite 1) downto 0 do (setf elite-array (push (nth n ga) elite-array))))))
 
 (defun mutation (a)
 (let ((y 10))                                                         
@@ -138,5 +146,5 @@ x))
        (setf (aref array-gene2 s) (aref (nth 1 (nth bb ga)) s)))
 (progn (setf (aref array-gene s) (aref (nth 1 (nth bb ga)) s))
        (setf (aref array-gene2 s) (aref (nth 1 (nth aa ga)) s)))))
-(setf new-ga (push (list 0 array-gene 0) new-ga))
-(setf new-ga (push (list 0 array-gene2 0) new-ga)))))
+       (setf new-ga (push (list 0 array-gene 0) new-ga))
+(setf new-ga (push (list 0 array-gene2 0) new-ga)))))    
