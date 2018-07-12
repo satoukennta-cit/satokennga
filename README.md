@@ -5,12 +5,12 @@ sbcl(common lisp)でとりあえず動くgenetic algorithmを実装してみた�
 eval-ga2に適応度関数を書けばok  
   
 (defparameter invididual 300) は個体数  
-(defparameter point 51) は遺伝子の要素,51で0~50まで  
+(defparameter point 51) は遺伝子の要素 51で0~50まで  
 (defparameter gene-length 1000)　遺伝子長  
 (defparameter elite 1)　エリート戦略の個体数  
 (defparameter cross-point2 2) 染色体が交差するかの確率　2で2割  
 (defparameter cross-point 5)　遺伝子１つに対しての一様交叉確率　5で5割  
-(defparameter mutation-point 1)　突然変異確率 1で1割  
+(defparameter mutation-point 1)　突然変異確率 1で1/遺伝子長  
   
 そのまま使うならquicklispを導入してclgplotを入れておかないといけません  
 common lisp  
@@ -47,7 +47,7 @@ ros run
 関数名がひどいねこれ   
   
 # 改良点
-ver.2.01
+ver.2.01　　
 突然変異確率が1/遺伝子長じゃなかったから修正 
   
 ver.2.10  
