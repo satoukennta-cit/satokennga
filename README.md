@@ -31,8 +31,9 @@ ubuntuならソースからのビルドで導入できました。
 sbcl  
 ターミナルを開いて  
 ros run  
-(compile-file "satokennga.lisp")  ←もしclgplotでエラーが出たら先に(load "satokennga.lisp")をしてからコンパイルするといいのかも
-(load "satokennga.fasl")  
+(load "satokennga.lisp")  
+(compile-file "satokennga.lisp")  
+(load "satokennga.fasl")←手間だよね  
 (run-gene1 ???)  
 多分早い 
 
