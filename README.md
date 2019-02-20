@@ -33,7 +33,7 @@ sbcl
 ros run  
 (load "satokennga.lisp")  
 (compile-file "satokennga.lisp")  
-(load "satokennga.fasl")←手間だよね  
+(load "satokennga.fasl") 
 (run-gene1 ???)  
 多分早い 
 
